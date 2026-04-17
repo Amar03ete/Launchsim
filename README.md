@@ -1,6 +1,4 @@
-<div align="center">
 
-<img src="./static/image/mirofish-offline-banner.png" alt="LaunchSim" width="100%"/>
 
 # LaunchSim
 
@@ -12,8 +10,6 @@
 [![GitHub Forks](https://img.shields.io/github/forks/nikmcfly/MiroFish-Offline?style=flat-square)](https://github.com/nikmcfly/MiroFish-Offline/network)
 [![Docker](https://img.shields.io/badge/Docker-Build-2496ED?style=flat-square&logo=docker&logoColor=white)](https://hub.docker.com/)
 [![License: AGPL-3.0](https://img.shields.io/badge/License-AGPL--3.0-blue?style=flat-square)](./LICENSE)
-
-</div>
 
 ## What is LaunchSim?
 
@@ -55,9 +51,7 @@ A powerful "Before vs After" simulation allows startups to test improvements and
 
 ## Screenshot
 
-<div align="center">
-<img src="./static/image/mirofish-offline-screenshot.jpg" alt="LaunchSim" width="100%"/>
-</div>
+<b> to be added later </b>
 
 ## Quick Start
 
