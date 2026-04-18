@@ -42,15 +42,15 @@ def create_app(config_class=Config):
     # Enable CORS
     CORS(app, resources={r"/api/*": {"origins": "*"}})
 
-    # --- Initialize Neo4jStorage singleton (DI via app.extensions) ---
-    from .storage import Neo4jStorage
+    # --- Initialize MemoryStorage singleton (DI via app.extensions) ---
+    from .storage.memory_storage import MemoryStorage
     try:
-        neo4j_storage = Neo4jStorage()
+        neo4j_storage = MemoryStorage()
         app.extensions['neo4j_storage'] = neo4j_storage
         if should_log_startup:
-            logger.info("Neo4jStorage initialized (connected to %s)", Config.NEO4J_URI)
+            logger.info("MemoryStorage initialized (bypassing Neo4j for offline execution)")
     except Exception as e:
-        logger.error("Neo4jStorage initialization failed: %s", e)
+        logger.error("MemoryStorage initialization failed: %s", e)
         # Store None so endpoints can return 503 gracefully
         app.extensions['neo4j_storage'] = None
 

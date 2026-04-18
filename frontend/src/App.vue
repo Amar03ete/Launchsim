@@ -18,8 +18,8 @@
   font-family: 'JetBrains Mono', 'Space Grotesk', 'Noto Sans SC', monospace;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: #000000;
-  background-color: #ffffff;
+  color: #FFFFFF;
+  background-color: #0B0B0E;
 }
 
 ::-webkit-scrollbar {
@@ -28,15 +28,16 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: #0B0B0E;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #000000;
+  background: #00F0FF;
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #333333;
+  background: #00C0CC;
 }
 
 button {
@@ -47,15 +48,20 @@ button {
 
 .home-container {
   min-height: 100vh;
-  background: #FFFFFF;
+  background-color: #0B0B0E;
+  background-image: 
+    linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
   font-family: 'Space Grotesk', 'Noto Sans SC', system-ui, sans-serif;
-  color: #000000;
+  color: #FFFFFF;
 }
 
 .navbar {
   height: 60px;
-  background: #000000;
+  background: #050508;
   color: #FFFFFF;
+  border-bottom: 1px solid #1A1A24;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -142,11 +148,11 @@ button {
   font-weight: 500;
   margin: 0 0 40px 0;
   letter-spacing: -2px;
-  color: #000000;
+  color: #FFFFFF;
 }
 
 .gradient-text {
-  background: linear-gradient(90deg, #000000 0%, #444444 100%);
+  background: linear-gradient(90deg, #00F0FF 0%, #FF003C 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   display: inline-block;
@@ -155,7 +161,7 @@ button {
 .hero-desc {
   font-size: 1.05rem;
   line-height: 1.8;
-  color: #666666;
+  color: #AAAAAA;
   max-width: 640px;
   margin-bottom: 50px;
   font-weight: 400;
@@ -167,32 +173,32 @@ button {
 }
 
 .highlight-bold {
-  color: #000000;
+  color: #FFFFFF;
   font-weight: 700;
 }
 
 .highlight-orange {
-  color: #FF4500;
+  color: #00F0FF;
   font-weight: 700;
   font-family: 'JetBrains Mono', monospace;
 }
 
 .highlight-code {
-  background: rgba(0, 0, 0, 0.05);
+  background: rgba(255, 255, 255, 0.1);
   padding: 2px 6px;
   border-radius: 2px;
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.9em;
-  color: #000000;
+  color: #00F0FF;
   font-weight: 600;
 }
 
 .slogan-text {
   font-size: 1.2rem;
   font-weight: 520;
-  color: #000000;
+  color: #FFFFFF;
   letter-spacing: 1px;
-  border-left: 3px solid #FF4500;
+  border-left: 3px solid #00F0FF;
   padding-left: 15px;
   margin-top: 20px;
 }
@@ -237,25 +243,26 @@ button {
 .scroll-down-btn {
   width: 40px;
   height: 40px;
-  border: 1px solid #E5E5E5;
+  border: 1px solid #1A1A24;
   background: transparent;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  color: #FF4500;
+  color: #00F0FF;
   font-size: 1.2rem;
   transition: all 0.2s;
 }
 
 .scroll-down-btn:hover {
-  border-color: #FF4500;
+  border-color: #00F0FF;
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
 }
 
 .dashboard-section {
   display: flex;
   gap: 60px;
-  border-top: 1px solid #E5E5E5;
+  border-top: 1px solid #1A1A24;
   padding-top: 60px;
   align-items: flex-start;
 }
@@ -281,18 +288,20 @@ button {
 }
 
 .status-dot {
-  color: #FF4500;
+  color: #00F0FF;
   font-size: 0.8rem;
+  text-shadow: 0 0 5px rgba(0, 240, 255, 0.5);
 }
 
 .section-title {
   font-size: 2rem;
   font-weight: 520;
   margin: 0 0 15px 0;
+  color: #FFFFFF;
 }
 
 .section-desc {
-  color: #666666;
+  color: #AAAAAA;
   margin-bottom: 25px;
   line-height: 1.6;
 }
@@ -304,7 +313,8 @@ button {
 }
 
 .metric-card {
-  border: 1px solid #E5E5E5;
+  border: 1px solid #1A1A24;
+  background: rgba(255, 255, 255, 0.02);
   padding: 20px 30px;
   min-width: 150px;
 }
@@ -322,7 +332,8 @@ button {
 }
 
 .steps-container {
-  border: 1px solid #E5E5E5;
+  border: 1px solid #1A1A24;
+  background: rgba(255, 255, 255, 0.02);
   padding: 30px;
   position: relative;
 }
@@ -357,7 +368,7 @@ button {
 .step-num {
   font-family: 'JetBrains Mono', monospace;
   font-weight: 700;
-  color: #000000;
+  color: #FFFFFF;
   opacity: 0.3;
 }
 
@@ -381,7 +392,8 @@ button {
 }
 
 .console-box {
-  border: 1px solid #CCC;
+  border: 1px solid #1A1A24;
+  background: #0D0D12;
   padding: 8px;
 }
 
@@ -403,15 +415,15 @@ button {
 }
 
 .upload-zone {
-  border: 1px dashed #CCC;
-  height: 200px;
+  border: 1px dashed #1A1A24;
+  height: 150px;
   overflow-y: auto;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   transition: all 0.3s;
-  background: #FAFAFA;
+  background: #050508;
 }
 
 .upload-zone.has-files {
@@ -419,8 +431,8 @@ button {
 }
 
 .upload-zone:hover {
-  background: #F0F0F0;
-  border-color: #999;
+  background: #111118;
+  border-color: #00F0FF;
 }
 
 .upload-placeholder {
@@ -430,12 +442,12 @@ button {
 .upload-icon {
   width: 40px;
   height: 40px;
-  border: 1px solid #DDD;
+  border: 1px solid #333;
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 0 auto 15px;
-  color: #999;
+  color: #00F0FF;
 }
 
 .upload-title {
@@ -461,9 +473,10 @@ button {
 .file-item {
   display: flex;
   align-items: center;
-  background: #FFFFFF;
+  background: #111;
+  color: #FFF;
   padding: 8px 12px;
-  border: 1px solid #EEE;
+  border: 1px solid #333;
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.85rem;
 }
@@ -478,7 +491,12 @@ button {
   border: none;
   cursor: pointer;
   font-size: 1.2rem;
-  color: #999;
+  color: #FF003C;
+  transition: all 0.2s;
+}
+
+.remove-btn:hover {
+  text-shadow: 0 0 8px rgba(255, 0, 60, 0.8);
 }
 
 .console-divider {
@@ -505,8 +523,8 @@ button {
 
 .input-wrapper {
   position: relative;
-  border: 1px solid #DDD;
-  background: #FAFAFA;
+  border: 1px solid #1A1A24;
+  background: #050508;
 }
 
 .code-input {
@@ -519,7 +537,12 @@ button {
   line-height: 1.6;
   resize: vertical;
   outline: none;
-  min-height: 150px;
+  min-height: 250px;
+  color: #00F0FF;
+}
+
+.code-input::placeholder {
+  color: #444;
 }
 
 .model-badge {
@@ -533,12 +556,12 @@ button {
 
 .start-engine-btn {
   width: 100%;
-  background: #000000;
-  color: #FFFFFF;
+  background: #00F0FF;
+  color: #000;
   border: none;
   padding: 20px;
   font-family: 'JetBrains Mono', monospace;
-  font-weight: 700;
+  font-weight: 800;
   font-size: 1.1rem;
   display: flex;
   justify-content: space-between;
@@ -546,19 +569,17 @@ button {
   cursor: pointer;
   transition: all 0.3s ease;
   letter-spacing: 1px;
-  position: relative;
-  overflow: hidden;
+  text-transform: uppercase;
 }
 
 .start-engine-btn:not(:disabled) {
-  background: #000000;
-  border: 1px solid #000000;
-  animation: pulse-border 2s infinite;
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
 }
 
 .start-engine-btn:hover:not(:disabled) {
-  background: #FF4500;
-  border-color: #FF4500;
+  background: #FFFFFF;
+  color: #000;
+  box-shadow: 0 0 25px rgba(255, 255, 255, 0.6);
   transform: translateY(-2px);
 }
 
@@ -567,11 +588,11 @@ button {
 }
 
 .start-engine-btn:disabled {
-  background: #E5E5E5;
-  color: #999;
+  background: #1A1A24;
+  color: #444;
   cursor: not-allowed;
   transform: none;
-  border: 1px solid #E5E5E5;
+  box-shadow: none;
 }
 
 @keyframes pulse-border {

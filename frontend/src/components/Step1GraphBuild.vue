@@ -160,11 +160,10 @@
           <p class="description">Graph build is complete. Please proceed to the next step to set up the simulation environment</p>
           <button 
             class="action-btn" 
-            :disabled="currentPhase < 2 || creatingSimulation"
+            :disabled="currentPhase < 2"
             @click="handleEnterEnvSetup"
           >
-            <span v-if="creatingSimulation" class="spinner-sm"></span>
-            {{ creatingSimulation ? 'Creating...' : 'Enter Environment Setup ➝' }}
+            Enter Environment Setup ➝
           </button>
         </div>
       </div>
@@ -188,10 +187,6 @@
 
 <script setup>
 import { computed, ref, watch, nextTick } from 'vue'
-import { useRouter } from 'vue-router'
-import { createSimulation } from '../api/simulation'
-
-const router = useRouter()
 
 const props = defineProps({
   currentPhase: { type: Number, default: 0 },
@@ -202,45 +197,15 @@ const props = defineProps({
   systemLogs: { type: Array, default: () => [] }
 })
 
-defineEmits(['next-step'])
+const emit = defineEmits(['next-step'])
 
 const selectedOntologyItem = ref(null)
 const logContent = ref(null)
-const creatingSimulation = ref(false)
 
-// Enter environment setup - create simulation and navigate
-const handleEnterEnvSetup = async () => {
-  if (!props.projectData?.project_id || !props.projectData?.graph_id) {
-    console.error('Missing project or graph information')
-    return
-  }
-  
-  creatingSimulation.value = true
-  
-  try {
-    const res = await createSimulation({
-      project_id: props.projectData.project_id,
-      graph_id: props.projectData.graph_id,
-      enable_twitter: true,
-      enable_reddit: true
-    })
-    
-    if (res.success && res.data?.simulation_id) {
-      // Navigate to simulation page
-      router.push({
-        name: 'Simulation',
-        params: { simulationId: res.data.simulation_id }
-      })
-    } else {
-      console.error('Failed to create simulation:', res.error)
-      alert('Failed to create simulation: ' + (res.error || 'Unknown error'))
-    }
-  } catch (err) {
-    console.error('Simulation creation exception:', err)
-    alert('Simulation creation exception: ' + err.message)
-  } finally {
-    creatingSimulation.value = false
-  }
+// Enter environment setup — emit to parent (MainView handles simulation creation)
+const handleEnterEnvSetup = () => {
+  if (props.currentPhase < 2) return
+  emit('next-step')
 }
 
 const selectOntologyItem = (item, type) => {
@@ -273,11 +238,13 @@ watch(() => props.systemLogs.length, () => {
 <style scoped>
 .workbench-panel {
   height: 100%;
-  background-color: #FAFAFA;
+  background: #0A0A14;
   display: flex;
   flex-direction: column;
   position: relative;
   overflow: hidden;
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  color: #E0E0E0;
 }
 
 .scroll-container {
@@ -286,22 +253,27 @@ watch(() => props.systemLogs.length, () => {
   padding: 24px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 16px;
+  scrollbar-width: thin;
+  scrollbar-color: #1A1A2E transparent;
 }
 
 .step-card {
-  background: #FFF;
-  border-radius: 8px;
+  background: rgba(255,255,255,0.03);
   padding: 20px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-  border: 1px solid #EAEAEA;
+  border: 1px solid #1A1A2E;
   transition: all 0.3s ease;
-  position: relative; /* For absolute overlay */
+  position: relative;
 }
 
 .step-card.active {
-  border-color: #FF5722;
-  box-shadow: 0 4px 12px rgba(255, 87, 34, 0.08);
+  border-color: rgba(0, 240, 255, 0.35);
+  background: rgba(0, 240, 255, 0.04);
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.06);
+}
+
+.step-card.completed {
+  border-color: rgba(0, 255, 136, 0.2);
 }
 
 .card-header {
@@ -319,66 +291,69 @@ watch(() => props.systemLogs.length, () => {
 
 .step-num {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 700;
-  color: #E0E0E0;
+  color: #2A2A3A;
 }
 
-.step-card.active .step-num,
-.step-card.completed .step-num {
-  color: #000;
-}
+.step-card.active .step-num { color: #00F0FF; }
+.step-card.completed .step-num { color: #00FF88; }
 
 .step-title {
   font-weight: 600;
-  font-size: 14px;
+  font-size: 13px;
   letter-spacing: 0.5px;
+  color: #E0E0E0;
 }
 
 .badge {
-  font-size: 10px;
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-weight: 600;
+  font-size: 9px;
+  padding: 3px 8px;
+  font-weight: 700;
   text-transform: uppercase;
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 1px;
 }
 
-.badge.success { background: #E8F5E9; color: #2E7D32; }
-.badge.processing { background: #FF5722; color: #FFF; }
-.badge.accent { background: #FF5722; color: #FFF; }
-.badge.pending { background: #F5F5F5; color: #999; }
+.badge.success { background: rgba(0, 255, 136, 0.1); color: #00FF88; border: 1px solid rgba(0, 255, 136, 0.3); }
+.badge.processing { background: rgba(0, 240, 255, 0.1); color: #00F0FF; border: 1px solid rgba(0, 240, 255, 0.3); }
+.badge.accent { background: rgba(0, 240, 255, 0.1); color: #00F0FF; border: 1px solid rgba(0, 240, 255, 0.3); }
+.badge.pending { background: rgba(255,255,255,0.04); color: #444; border: 1px solid #1A1A2E; }
 
 .api-note {
   font-family: 'JetBrains Mono', monospace;
   font-size: 10px;
-  color: #999;
+  color: #333;
   margin-bottom: 8px;
+  letter-spacing: 0.5px;
 }
 
 .description {
   font-size: 12px;
-  color: #666;
-  line-height: 1.5;
+  color: #555;
+  line-height: 1.6;
   margin-bottom: 16px;
 }
 
-/* Step 01 Tags */
+/* Tags */
 .tags-container {
   margin-top: 12px;
   transition: opacity 0.3s;
 }
 
 .tags-container.dimmed {
-    opacity: 0.3;
-    pointer-events: none;
+  opacity: 0.3;
+  pointer-events: none;
 }
 
 .tag-label {
   display: block;
   font-size: 10px;
-  color: #AAA;
+  color: #444;
   margin-bottom: 8px;
-  font-weight: 600;
+  font-weight: 700;
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 1px;
 }
 
 .tags-list {
@@ -388,236 +363,225 @@ watch(() => props.systemLogs.length, () => {
 }
 
 .entity-tag {
-  background: #F5F5F5;
-  border: 1px solid #EEE;
+  background: rgba(0,240,255,0.04);
+  border: 1px solid rgba(0,240,255,0.2);
   padding: 4px 10px;
-  border-radius: 4px;
   font-size: 11px;
-  color: #333;
+  color: #00F0FF;
   font-family: 'JetBrains Mono', monospace;
   transition: all 0.2s;
 }
 
-.entity-tag.clickable {
-    cursor: pointer;
-}
-
+.entity-tag.clickable { cursor: pointer; }
 .entity-tag.clickable:hover {
-    background: #E0E0E0;
-    border-color: #CCC;
+  background: rgba(0,240,255,0.12);
+  border-color: rgba(0,240,255,0.5);
+  text-shadow: 0 0 8px rgba(0,240,255,0.5);
 }
 
 /* Ontology Detail Overlay */
 .ontology-detail-overlay {
-    position: absolute;
-    top: 60px; /* Below header roughly */
-    left: 20px;
-    right: 20px;
-    bottom: 20px;
-    background: rgba(255, 255, 255, 0.98);
-    backdrop-filter: blur(4px);
-    z-index: 10;
-    border: 1px solid #EAEAEA;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-    border-radius: 6px;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    animation: fadeIn 0.2s ease-out;
+  position: absolute;
+  top: 60px;
+  left: 20px;
+  right: 20px;
+  bottom: 20px;
+  background: rgba(10, 10, 20, 0.98);
+  backdrop-filter: blur(10px);
+  z-index: 10;
+  border: 1px solid rgba(0, 240, 255, 0.3);
+  box-shadow: 0 0 30px rgba(0, 240, 255, 0.1);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: fadeIn 0.2s ease-out;
 }
 
 @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
 .detail-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px 16px;
-    border-bottom: 1px solid #EAEAEA;
-    background: #FAFAFA;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid #1A1A2E;
+  background: rgba(0,0,0,0.3);
 }
 
 .detail-title-group {
-    display: flex;
-    align-items: center;
-    gap: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .detail-type-badge {
-    font-size: 9px;
-    font-weight: 700;
-    color: #FFF;
-    background: #000;
-    padding: 2px 6px;
-    border-radius: 2px;
-    text-transform: uppercase;
+  font-size: 9px;
+  font-weight: 700;
+  color: #000;
+  background: #00F0FF;
+  padding: 2px 6px;
+  text-transform: uppercase;
+  font-family: 'JetBrains Mono', monospace;
 }
 
 .detail-name {
-    font-size: 14px;
-    font-weight: 700;
-    font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  font-weight: 700;
+  font-family: 'JetBrains Mono', monospace;
+  color: #E0E0E0;
 }
 
 .close-btn {
-    background: none;
-    border: none;
-    font-size: 18px;
-    color: #999;
-    cursor: pointer;
-    line-height: 1;
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: #555;
+  cursor: pointer;
+  line-height: 1;
+  transition: color 0.2s;
 }
 
-.close-btn:hover {
-    color: #333;
-}
+.close-btn:hover { color: #FF003C; }
 
 .detail-body {
-    flex: 1;
-    overflow-y: auto;
-    padding: 16px;
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  scrollbar-width: thin;
+  scrollbar-color: #1A1A2E transparent;
 }
 
 .detail-desc {
-    font-size: 12px;
-    color: #444;
-    line-height: 1.5;
-    margin-bottom: 16px;
-    padding-bottom: 12px;
-    border-bottom: 1px dashed #EAEAEA;
+  font-size: 12px;
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px dashed #1A1A2E;
 }
 
-.detail-section {
-    margin-bottom: 16px;
-}
+.detail-section { margin-bottom: 16px; }
 
 .section-label {
-    display: block;
-    font-size: 10px;
-    font-weight: 600;
-    color: #AAA;
-    margin-bottom: 8px;
+  display: block;
+  font-size: 10px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 1px;
 }
 
 .attr-list, .conn-list {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
 .attr-item {
-    font-size: 11px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    align-items: baseline;
-    padding: 4px;
-    background: #F9F9F9;
-    border-radius: 4px;
+  font-size: 11px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: baseline;
+  padding: 6px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid #1A1A2E;
 }
 
 .attr-name {
-    font-family: 'JetBrains Mono', monospace;
-    font-weight: 600;
-    color: #000;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 600;
+  color: #00F0FF;
 }
 
-.attr-type {
-    color: #999;
-    font-size: 10px;
-}
-
-.attr-desc {
-    color: #555;
-    flex: 1;
-    min-width: 150px;
-}
+.attr-type { color: #444; font-size: 10px; }
+.attr-desc { color: #666; flex: 1; min-width: 150px; }
 
 .example-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
 }
 
 .example-tag {
-    font-size: 11px;
-    background: #FFF;
-    border: 1px solid #E0E0E0;
-    padding: 3px 8px;
-    border-radius: 12px;
-    color: #555;
+  font-size: 11px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid #1A1A2E;
+  padding: 3px 8px;
+  color: #888;
+  font-family: 'JetBrains Mono', monospace;
 }
 
 .conn-item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 11px;
-    padding: 6px;
-    background: #F5F5F5;
-    border-radius: 4px;
-    font-family: 'JetBrains Mono', monospace;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  padding: 6px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid #1A1A2E;
+  font-family: 'JetBrains Mono', monospace;
 }
 
-.conn-node {
-    font-weight: 600;
-    color: #333;
-}
+.conn-node { font-weight: 600; color: #E0E0E0; }
+.conn-arrow { color: #333; }
 
-.conn-arrow {
-    color: #BBB;
-}
-
-/* Step 02 Stats */
+/* Stats */
 .stats-grid {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 12px;
-  background: #F9F9F9;
+  background: rgba(0,240,255,0.02);
   padding: 16px;
-  border-radius: 6px;
+  border: 1px solid #1A1A2E;
 }
 
-.stat-card {
-  text-align: center;
-}
+.stat-card { text-align: center; }
 
 .stat-value {
   display: block;
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 700;
-  color: #000;
+  color: #00F0FF;
   font-family: 'JetBrains Mono', monospace;
+  text-shadow: 0 0 10px rgba(0,240,255,0.4);
 }
 
 .stat-label {
   font-size: 9px;
-  color: #999;
+  color: #444;
   text-transform: uppercase;
   margin-top: 4px;
   display: block;
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 1px;
 }
 
-/* Step 03 Button */
+/* Action Button */
 .action-btn {
   width: 100%;
-  background: #000;
-  color: #FFF;
+  background: linear-gradient(90deg, rgba(0,240,255,0.9) 0%, rgba(0,128,255,0.9) 100%);
+  color: #000;
   border: none;
-  padding: 14px;
-  border-radius: 4px;
+  padding: 16px;
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 800;
   cursor: pointer;
-  transition: opacity 0.2s;
+  transition: all 0.3s;
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 2px;
+  text-transform: uppercase;
 }
 
 .action-btn:hover:not(:disabled) {
-  opacity: 0.8;
+  filter: brightness(1.15);
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
 }
 
 .action-btn:disabled {
-  background: #CCC;
+  background: rgba(255,255,255,0.06);
+  color: #333;
   cursor: not-allowed;
 }
 
@@ -626,57 +590,51 @@ watch(() => props.systemLogs.length, () => {
   align-items: center;
   gap: 10px;
   font-size: 12px;
-  color: #FF5722;
+  color: #00F0FF;
   margin-bottom: 12px;
+  font-family: 'JetBrains Mono', monospace;
 }
 
 .spinner-sm {
   width: 14px;
   height: 14px;
-  border: 2px solid #FFCCBC;
-  border-top-color: #FF5722;
+  border: 2px solid rgba(0,240,255,0.2);
+  border-top-color: #00F0FF;
   border-radius: 50%;
-  animation: spin 1s linear infinite;
+  animation: spin 0.8s linear infinite;
+  flex-shrink: 0;
 }
 
 @keyframes spin { to { transform: rotate(360deg); } }
 
 /* System Logs */
 .system-logs {
-  background: #000;
-  color: #DDD;
-  padding: 16px;
+  background: #060609;
+  padding: 12px 16px;
   font-family: 'JetBrains Mono', monospace;
-  border-top: 1px solid #222;
+  border-top: 1px solid #1A1A2E;
   flex-shrink: 0;
 }
 
 .log-header {
   display: flex;
   justify-content: space-between;
-  border-bottom: 1px solid #333;
-  padding-bottom: 8px;
-  margin-bottom: 8px;
+  border-bottom: 1px solid #1A1A2E;
+  padding-bottom: 6px;
+  margin-bottom: 6px;
   font-size: 10px;
-  color: #888;
+  color: #333;
+  letter-spacing: 1px;
 }
 
 .log-content {
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  height: 80px; /* Approx 4 lines visible */
+  gap: 3px;
+  max-height: 80px;
   overflow-y: auto;
-  padding-right: 4px;
-}
-
-.log-content::-webkit-scrollbar {
-  width: 4px;
-}
-
-.log-content::-webkit-scrollbar-thumb {
-  background: #333;
-  border-radius: 2px;
+  scrollbar-width: thin;
+  scrollbar-color: #1A1A2E transparent;
 }
 
 .log-line {
@@ -686,13 +644,6 @@ watch(() => props.systemLogs.length, () => {
   line-height: 1.5;
 }
 
-.log-time {
-  color: #666;
-  min-width: 75px;
-}
-
-.log-msg {
-  color: #CCC;
-  word-break: break-all;
-}
+.log-time { color: #333; min-width: 75px; font-size: 10px; }
+.log-msg { color: #5A5A7A; }
 </style>
