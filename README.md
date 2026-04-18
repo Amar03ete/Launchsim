@@ -6,11 +6,6 @@
 
 *A multi-agent swarm intelligence engine specialized for predicting market reactions before product launches. Entirely on your hardware.*
 
-[![GitHub Stars](https://img.shields.io/github/stars/nikmcfly/MiroFish-Offline?style=flat-square&color=DAA520)](https://github.com/nikmcfly/MiroFish-Offline/stargazers)
-[![GitHub Forks](https://img.shields.io/github/forks/nikmcfly/MiroFish-Offline?style=flat-square)](https://github.com/nikmcfly/MiroFish-Offline/network)
-[![Docker](https://img.shields.io/badge/Docker-Build-2496ED?style=flat-square&logo=docker&logoColor=white)](https://hub.docker.com/)
-[![License: AGPL-3.0](https://img.shields.io/badge/License-AGPL--3.0-blue?style=flat-square)](./LICENSE)
-
 ## What is LaunchSim?
 
 LaunchSim is an advanced AI-driven prediction platform that enables startups to simulate real-world market reactions before launching a product. Built on multi-agent technology, it creates a dynamic digital environment where thousands of intelligent AI personas represent diverse segments of the ecosystem—such as early adopters, price-sensitive users, investors, and critics.
