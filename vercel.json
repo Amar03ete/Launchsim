@@ -1,12 +1,7 @@
 {
-  "buildCommand": "cd frontend && npm run build",
+  "buildCommand": "cd frontend && npm run build && cd .. && cp backend/requirements-prod.txt .",
   "outputDirectory": "frontend/dist",
   "framework": null,
-  "python": {
-    "version": "3.12",
-    "prebuiltPackages": false,
-    "requirements": "backend/requirements-prod.txt"
-  },
   "functions": {
     "backend/app.py": {
       "memory": 1024,
