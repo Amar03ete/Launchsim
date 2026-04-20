@@ -17,6 +17,7 @@ ROADMAP.md
 CHINESE_TEXT_INVENTORY.md
 backend/__pycache__
 backend/.pytest_cache
+backend/uv.lock
 backend/scripts
 backend/.venv
 backend/venv
