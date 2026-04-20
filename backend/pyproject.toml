@@ -41,6 +41,9 @@ dev = [
     "pipreqs>=0.5.0",
 ]
 
+[project.scripts]
+app = "app:create_app"
+
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
