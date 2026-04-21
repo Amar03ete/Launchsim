@@ -46,9 +46,6 @@ A powerful "Before vs After" simulation allows startups to test improvements and
 
 ## Screenshots
 
-<p align="center">
-  <img src="static/image/Screenshot/screenshot1.png" width="800" alt="LaunchSim Main Dashboard">
-</p>
 
 <p align="center">
   <img src="static/image/Screenshot/demo simple split view.png" width="400" alt="Split View">
