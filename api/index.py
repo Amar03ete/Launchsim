@@ -16,3 +16,6 @@ from app import create_app  # noqa: E402
 
 # Vercel looks for a variable named `app` in this file
 app = create_app()
+
+if __name__ == '__main__':
+    app.run()
