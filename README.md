@@ -2,7 +2,7 @@
 
 # LaunchSim
 
-**Product Launch Predictor for Startups (Built on MiroFish)**
+**Product Launch Predictor for Startups**
 
 *A multi-agent swarm intelligence engine specialized for predicting market reactions before product launches. Entirely on your hardware.*
 
@@ -44,9 +44,21 @@ LaunchSim analyzes the simulated ecosystem to provide:
 
 A powerful "Before vs After" simulation allows startups to test improvements and instantly compare outcomes, enabling rapid iteration without real-world risk.
 
-## Screenshot
+## Screenshots
 
-<b> to be added later </b>
+<p align="center">
+  <img src="static/image/Screenshot/screenshot1.png" width="800" alt="LaunchSim Main Dashboard">
+</p>
+
+<p align="center">
+  <img src="static/image/Screenshot/demo simple split view.png" width="400" alt="Split View">
+  <img src="static/image/Screenshot/graph.png" width="400" alt="Knowledge Graph Intelligence">
+</p>
+
+<p align="center">
+  <img src="static/image/Screenshot/simulation .png" width="400" alt="Market Simulation">
+  <img src="static/image/Screenshot/report generation .png" width="400" alt="Report Analysis">
+</p>
 
 ## Quick Start
 

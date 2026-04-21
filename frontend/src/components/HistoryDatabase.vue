@@ -31,7 +31,10 @@
       >
         <!-- Card header: simulation_id and feature availability status -->
         <div class="card-header">
-          <span class="card-id">{{ formatSimulationId(project.simulation_id) }}</span>
+          <div class="card-header-left">
+            <button class="mac-close-btn" @click.stop="handleDelete(project.simulation_id, $event)" title="Delete Simulation">×</button>
+            <span class="card-id">{{ formatSimulationId(project.simulation_id) }}</span>
+          </div>
           <div class="card-status-icons">
             <span
               class="status-icon"
@@ -193,7 +196,7 @@
 <script setup>
 import { ref, computed, onMounted, onUnmounted, onActivated, watch, nextTick } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import { getSimulationHistory } from '../api/simulation'
+import { getSimulationHistory, deleteSimulation } from '../api/simulation'
 
 const router = useRouter()
 const route = useRoute()
@@ -450,6 +453,19 @@ const loadHistory = async () => {
   }
 }
 
+// Delete simulation
+const handleDelete = async (simulationId, event) => {
+  if (!confirm('Permanently delete this simulation record?')) return
+  try {
+    const res = await deleteSimulation(simulationId)
+    if (res.success) {
+      loadHistory()
+    }
+  } catch (error) {
+    console.error('Failed to delete simulation:', error)
+  }
+}
+
 // Initialize IntersectionObserver
 const initObserver = () => {
   if (observer) {
@@ -701,6 +717,35 @@ onUnmounted(() => {
   color: #6B7280;
   letter-spacing: 0.5px;
   font-weight: 500;
+}
+
+.card-header-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mac-close-btn {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #FF5F56;
+  border: 1px solid #E0443E;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: transparent;
+  font-size: 10px;
+  line-height: 1;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+  padding: 0;
+}
+
+.mac-close-btn:hover {
+  color: #4C0000;
+  background: #FF5F56;
 }
 
 /* Feature status icon group */

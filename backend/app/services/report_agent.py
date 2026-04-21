@@ -555,31 +555,33 @@ You are an expert in writing "future prediction reports" with a "god's eye view"
 We built a simulated world and injected specific "simulation requirements" as variables into it. The evolution result of the simulated world is a prediction of what might happen in the future. What you're observing is not "experimental data" but a "rehearsal of the future".
 
 [Your Task]
-Write a "future prediction report" that answers:
-1. What happened in the future under the conditions we set?
-2. How do various agents (groups) react and act?
-3. What future trends and risks does this simulation reveal that deserve attention?
+Write a concise "Reality Check Report" focusing heavily on real-world business viability. You must answer:
+1. What is the real-world impact of the business product vs the founder's initial thinking? (Reality Expose)
+2. What is the founder missing or thinking wrong?
+3. What is the explicit business viability? Provide estimations on expected profit, flop vs. success probability, ROI fit, and an EBITDA score.
 
 [Report Positioning]
-- ✅ This is a future prediction report based on simulation, revealing "if this happens, how will the future unfold"
-- ✅ Focus on prediction results: event trajectories, group reactions, emergent phenomena, potential risks
-- ✅ Agent statements and behaviors in the simulated world are predictions of future human behavior
-- ❌ Not an analysis of the current state of the real world
-- ❌ Not a general overview of public sentiment
+- ✅ The report MUST serve as a harsh reality check for founders.
+- ✅ Break down analysis into structured bullet points with 1 or 2 line explanations per point.
+- ✅ Focus on Business Viability: Project concrete failure/success likelihoods (e.g. 'more input less output' scenarios, ROI mismatch).
+- ❌ Do not write generalized fluff. Be specific, harsh, and highly concise.
 
 [Section Number Limit]
-- Minimum 2 sections, maximum 5 sections
-- No subsections needed, each section directly writes complete content
-- Content should be concise, focused on core prediction findings
-- Section structure is designed independently based on prediction results
+- You MUST generate exactly 4 sections.
+- Sections MUST logically map to: 
+  1. Founder's Delusion vs. Reality Expose 
+  2. Real World & Social Impact 
+  3. ROI, EBITDA, & Profitability Scorecard
+  4. Final Verdict (Flop or Success)
+- Each section directly writes complete bulleted content.
 
 Please output the report outline in JSON format as follows:
 {
-    "title": "Report Title",
-    "summary": "Report Summary (one sentence summarizing core prediction findings)",
+    "title": "Reality Check: [Project Name]",
+    "summary": "Report Summary (one brutal sentence summarizing the core reality check)",
     "sections": [
         {
-            "title": "Section Title",
+            "title": "Section Title (e.g. Reality Expose)",
             "description": "Section Content Description"
         }
     ]
@@ -625,16 +627,16 @@ Current Section to Write: {section_title}
 [Core Concept]
 ═══════════════════════════════════════════════════════════════
 
-The simulated world is a rehearsal of the future. We injected specific conditions (simulation requirements) into the simulated world.
+The simulated world is a rehearsal of the future. We injected specific conditions into the simulated world.
 The behavior and interactions of agents in the simulation are predictions of future human behavior.
 
-Your task is to:
-- Reveal what happens in the future under the set conditions
-- Predict how various groups (agents) react and act
-- Discover future trends, risks, and opportunities worth paying attention to
+Your task is to write a brutal, concise Reality Check that answers:
+- What is the real-world impact of the business product vs the founder's initial thinking? (Reality Expose)
+- What is the founder missing or thinking wrong?
+- What is the explicit business viability? Provide estimations on expected profit, flop vs. success probability, ROI fit, and an EBITDA score.
 
-❌ Don't write it as an analysis of the current state of the real world
-✅ Focus on "how the future will unfold" - simulation results are the predicted future
+❌ Do not write generalized fluff. Be specific, harsh, and highly concise.
+✅ Focus on "Reality Check" - simulation results are the predicted future. Provide 1 or 2 line explanations per bullet point.
 
 ═══════════════════════════════════════════════════════════════
 [Most Important Rules - Must Follow]
@@ -742,11 +744,11 @@ When you have gathered enough information through tools, start with "Final Answe
 
 1. Content must be based on simulation data retrieved by tools
 2. Heavily quote original text to demonstrate simulation effects
-3. Use Markdown format (but forbidden to use titles):
-   - Use **bold text** to mark key points (replacing sub-titles)
-   - Use lists (- or 1.2.3.) to organize points
-   - Use blank lines to separate paragraphs
-   - ❌ Forbidden to use any title syntax like #, ##, ###, ####
+3. Formatting: MUST USE concise bullet points containing precisely 1 or 2 lines of explanation each.
+   - Use **bold text** to highlight the core metric or insight.
+   - Separate bullet points with blank lines.
+   - ❌ Forbidden to use any title syntax like #, ##, ###, ####.
+   - ❌ Forbidden to write long paragraphs. Keep it strictly bulleted.
 4. [Quote Format Specification - Must Be Separate Paragraph]
    Quotes must be standalone paragraphs with blank lines before and after, cannot be mixed in paragraphs:
 

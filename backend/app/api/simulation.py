@@ -863,8 +863,23 @@ def _get_report_id_for_simulation(simulation_id: str) -> str:
     except Exception as e:
         logger.warning(f"Failed to find report for simulation {simulation_id}: {e}")
         return None
+import shutil
 
-
+@simulation_bp.route('/<simulation_id>', methods=['DELETE'])
+def delete_simulation(simulation_id):
+    """Delete a simulation by removing its directory."""
+    try:
+        sm = SimulationManager()
+        sim_dir = sm._get_simulation_dir(simulation_id)
+        if os.path.exists(sim_dir):
+            shutil.rmtree(sim_dir)
+            logger.info(f"Deleted simulation {simulation_id} and its files.")
+            return jsonify({"success": True})
+        else:
+            return jsonify({"success": False, "error": "Simulation not found"}), 404
+    except Exception as e:
+        logger.error(f"Error deleting simulation {simulation_id}: {e}")
+        return jsonify({"success": False, "error": str(e)}), 500
 @simulation_bp.route('/history', methods=['GET'])
 def get_simulation_history():
     """
