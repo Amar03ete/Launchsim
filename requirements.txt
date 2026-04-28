@@ -1,0 +1,11 @@
+# Flask
+flask>=3.0.0
+flask-cors>=6.0.0
+
+# Database  
+neo4j>=5.15.0
+
+# Utilities
+python-dotenv>=1.0.0
+pydantic>=2.0.0
+requests>=2.28.0
